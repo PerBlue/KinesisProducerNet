@@ -142,7 +142,16 @@ namespace KinesisProducerNet
             if (this.processFailureBehavior == ProcessFailureBehavior.AutoRestart && !this.destroyed)
             {
                 this.logger.LogInformation("Restarting native producer process.");
-                this.CreateDaemon();
+                try
+                {
+                    this.CreateDaemon();
+                }
+                catch (Exception e)
+                {
+                    // I'm not sure if this can ever happen, but retry if it does
+                    Thread.Yield();
+                    OnException(e);
+                }
             }
             else
             {
