@@ -96,7 +96,7 @@ namespace KinesisProducerNet
                     }
                     else
                     {
-                        this.logger.LogError("Caught IO Exception while reading log line", ioex);
+                        this.logger.LogError(ioex, "Caught IO Exception while reading log line");
                     }
                 }
             }

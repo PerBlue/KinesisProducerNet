@@ -137,8 +137,6 @@ namespace KinesisProducerNet
             }
             catch (Exception e)
             {
-                this.logger.LogError(e.StackTrace);
-                this.logger.LogError(e.Message + " " + e.GetType());
                 this.FatalError("Error starting child process", e, false);
             }
 
@@ -211,7 +209,7 @@ namespace KinesisProducerNet
                     }
                     catch (Exception e)
                     {
-                        this.logger.LogError("Error in message handler", e);
+                        this.logger.LogError(e, "Error in message handler");
                     }
                 }
             }
@@ -239,7 +237,7 @@ namespace KinesisProducerNet
             }
             catch (Exception e)
             {
-                this.logger.LogWarning("Exception during updateCredentials", e);
+                this.logger.LogWarning(e, "Exception during updateCredentials");
             }
         }
 
@@ -349,6 +347,10 @@ namespace KinesisProducerNet
                             : new IrrecoverableError(message));
                     }
                 }
+            }
+            else
+            {
+                this.logger.LogError(exception, "FatalError: {Message}", message);
             }
         }
     }

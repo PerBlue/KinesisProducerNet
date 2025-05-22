@@ -56,7 +56,7 @@ namespace KinesisProducerNet
                 }
                 catch (IOException e)
                 {
-                    this.logger.LogError("Failed to connect to child process", e);
+                    this.logger.LogError(e, "Failed to connect to child process");
 
                     if (this.inPipeClient != null && this.inPipeClient.IsConnected)
                     {
@@ -83,8 +83,7 @@ namespace KinesisProducerNet
                 }
                 catch (Exception e)
                 {
-                    this.logger.LogError("EXCEPTION WHILE CONNECTING TO I/O PIPES..", e);
-                    this.logger.LogError(e.StackTrace);
+                    this.logger.LogError(e, "EXCEPTION WHILE CONNECTING TO I/O PIPES..");
                     break;
                 }
             }

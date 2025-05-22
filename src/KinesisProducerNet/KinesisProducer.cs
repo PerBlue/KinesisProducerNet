@@ -124,7 +124,7 @@ namespace KinesisProducerNet
             // Don't log error if the user called destroy
             if (!this.destroyed)
             {
-                this.logger.LogError("Error in child process", exception);
+                this.logger.LogError(exception, "Error in child process");
             }
 
             // Fail all outstanding futures
