@@ -36,7 +36,11 @@ namespace KinesisProducerNet
                 return false;
             }
 
-            var len = BitConverter.ToInt32(lenBuffer, 0);
+            var len = 0;
+            for (var i = 0; i < lenBuffer.Length; i++)
+            {
+                len = len * 256 + lenBuffer[i];
+            }
 
             return TryReadPending(len, out buffer);
         }
