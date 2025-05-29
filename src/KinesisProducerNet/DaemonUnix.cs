@@ -181,7 +181,7 @@ namespace KinesisProducerNet
             try
             {
                 this.inFileStream?.Dispose();
-                this.inFileStream?.Dispose();
+                this.outFileStream?.Dispose();
                 File.Delete(this.InPipeAbsolutePath);
                 File.Delete(this.OutPipeAbsolutePath);
             }
