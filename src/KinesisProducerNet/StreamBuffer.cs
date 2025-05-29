@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace KinesisProducerNet
@@ -6,10 +7,12 @@ namespace KinesisProducerNet
     public class StreamBuffer
     {
         private readonly Stream ioStream;
+        private readonly Queue<byte> pending;
 
         public StreamBuffer(Stream ioStream)
         {
             this.ioStream = ioStream;
+            this.pending = new Queue<byte>();
         }
 
         public byte[] ReadBuffer()
@@ -27,26 +30,43 @@ namespace KinesisProducerNet
         
         public bool TryReadBuffer(out byte[] buffer)
         {
-            var startingPosition = ioStream.Position;
-            var len = 0;
-            for (var i = 0; i < 4; i++)
+            if (!TryReadPending(sizeof(int), out var lenBuffer))
             {
-                var b = ioStream.ReadByte();
-                if (b == -1)
-                {
-                    ioStream.Position = startingPosition;
-                    buffer = default;
-                    return false;
-                }
-                len = len * 256 + b;
+                buffer = default;
+                return false;
             }
 
-            buffer = new byte[len];
-            var bytesRead = ioStream.Read(buffer, 0, len);
-            if (bytesRead == len) return true;
+            var len = BitConverter.ToInt32(lenBuffer, 0);
 
-            ioStream.Position = startingPosition;
-            return false;
+            return TryReadPending(len, out buffer);
+        }
+
+        private bool TryReadPending(int count, out byte[] buffer)
+        {
+            var pendingCount = pending.Count;
+            buffer = new byte[count];
+            
+            for (var i = 0; i < Math.Min(count, pendingCount); i++)
+            {
+                buffer[i] = pending.Dequeue();
+            }
+
+            var missing = count - pendingCount;
+            if (missing <= 0) return true;
+            
+            var bytesRead = ioStream.Read(buffer, pendingCount, missing);
+            if (bytesRead != missing)
+            {
+                for (var i = 0; i < pendingCount + bytesRead; i++)
+                {
+                    pending.Enqueue(buffer[i]);
+                }
+
+                buffer = default;
+                return false;
+            }
+
+            return true;
         }
 
         public int WriteBuffer(byte[] outBuffer)
