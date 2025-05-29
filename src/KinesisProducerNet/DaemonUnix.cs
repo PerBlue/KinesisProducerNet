@@ -155,11 +155,13 @@ namespace KinesisProducerNet
                     this.inStreamBuffer = new StreamBuffer(this.inFileStream);
                 }
 
-                receiveBuffer = this.inStreamBuffer.ReadBuffer();
-                using (var ms = new MemoryStream(receiveBuffer))
+                if (this.inStreamBuffer.TryReadBuffer(out receiveBuffer))
                 {
-                    var msg = Serializer.Deserialize<Message>(ms);
-                    this.incomingMessages.Add(msg);
+                    using (var ms = new MemoryStream(receiveBuffer))
+                    {
+                        var msg = Serializer.Deserialize<Message>(ms);
+                        this.incomingMessages.Add(msg);
+                    }
                 }
             }
             catch (IOException e)

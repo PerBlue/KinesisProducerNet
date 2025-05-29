@@ -24,6 +24,30 @@ namespace KinesisProducerNet
             ioStream.Read(inBuffer, 0, len);
             return inBuffer;
         }
+        
+        public bool TryReadBuffer(out byte[] buffer)
+        {
+            var startingPosition = ioStream.Position;
+            var len = 0;
+            for (var i = 0; i < 4; i++)
+            {
+                var b = ioStream.ReadByte();
+                if (b == -1)
+                {
+                    ioStream.Position = startingPosition;
+                    buffer = default;
+                    return false;
+                }
+                len = len * 256 + b;
+            }
+
+            buffer = new byte[len];
+            var bytesRead = ioStream.Read(buffer, 0, len);
+            if (bytesRead == len) return true;
+
+            ioStream.Position = startingPosition;
+            return false;
+        }
 
         public int WriteBuffer(byte[] outBuffer)
         {
