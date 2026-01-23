@@ -4,12 +4,12 @@
     <PackageId>KinesisProducerNet</PackageId>
     <Authors>Serhii Daletskyi</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.12.8.1</AssemblyVersion>
-    <FileVersion>0.12.8.1</FileVersion>
+    <AssemblyVersion>1.0.6</AssemblyVersion>
+    <FileVersion>1.0.6</FileVersion>
     <PackageProjectUrl>https://github.com/daletskyi/KinesisProducerNet</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/daletskyi/KinesisProducerNet/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageTags>amazon kinesis producer netstandard</PackageTags>
-    <Version>0.12.8</Version>
+    <Version>1.0.6</Version>
     <Title>KinesisProducerNet</Title>
     <Description>Unofficial Amazon Kinesis Producer Library (KPL) for .NET. This is a core package which doesn't contain native executable, you also need to install separate package to run under specific platform (ex. KinesisProducerNet.Linux).</Description>
   </PropertyGroup>
