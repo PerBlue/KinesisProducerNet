@@ -39,12 +39,12 @@ namespace KinesisProducerNet
         /// </para>
         /// <para>
         /// If a record has more data by itself than this limit, it will bypass the aggregator. Note
-        /// the backend enforces a limit of 50KB on record size. If you set this beyond 50KB, oversize
+        /// the backend enforces a limit of 10MB on record size. If you set this beyond 10MB, oversize
         /// records will be rejected at the backend.
         /// </para>
         /// Default: 51200
         /// Minimun: 64
-        /// Maximum (inclusive): 1048576
+        /// Maximum (inclusive): 10485760
         /// </summary>
         public ulong AggregationMaxSize { get; set; } = 51200L;
 

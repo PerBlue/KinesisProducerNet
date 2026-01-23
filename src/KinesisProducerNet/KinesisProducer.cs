@@ -228,9 +228,9 @@ namespace KinesisProducerNet
                 }
             }
 
-            if (data != null && data.Length > 1024 * 1024)
+            if (data != null && data.Length > 1024 * 1024 * 10)
             {
-                throw new ArgumentException($"Data must be less than or equal to 1MB in size, got {data.Length} bytes", nameof(data));
+                throw new ArgumentException($"Data must be less than or equal to 10MB in size, got {data.Length} bytes", nameof(data));
             }
 
             long id = Interlocked.Increment(ref messageNumber) - 1;

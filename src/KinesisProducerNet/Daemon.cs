@@ -31,7 +31,7 @@ namespace KinesisProducerNet
         protected Process process;
         protected CancellationTokenSource cancelTokenSource;
         protected CancellationToken processCancellationToken;
-        protected byte[] receiveBuffer = new byte[8 * 1024 * 1024];
+        protected byte[] receiveBuffer = new byte[12 * 1024 * 1024];
         protected readonly ILogger logger = Logging.CreateLogger<Daemon>();
 
         protected readonly BlockingCollection<Message> outgoingMessages =
