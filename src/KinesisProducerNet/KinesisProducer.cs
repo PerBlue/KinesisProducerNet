@@ -444,7 +444,10 @@ namespace KinesisProducerNet
         private static string GetOSPlatform()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return "windows";
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) return "linux";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "linux-arm64" : "linux";
+            }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return "osx";
 
             throw new Exception($"Your operation system is not supported ({RuntimeInformation.OSDescription}), the library only supports Linux, OSX and Windows");

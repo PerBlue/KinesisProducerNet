@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <None Remove="Resources\amazon-kinesis-producer-native-binaries\linux\kinesis_producer" />
+      <None Remove="Resources\amazon-kinesis-producer-native-binaries\linux-arm64\kinesis_producer" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\amazon-kinesis-producer-native-binaries\linux\kinesis_producer" />
+      <EmbeddedResource Include="Resources\amazon-kinesis-producer-native-binaries\linux-arm64\kinesis_producer" />
   </ItemGroup>
 
 </Project>
